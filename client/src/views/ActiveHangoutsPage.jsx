@@ -134,7 +134,7 @@ export function ActiveHangoutsPage() {
           <img
             src="/rough-bills-logo.png"
             alt="Rough Bills logo"
-            className="h-20 w-20 -translate-y-1 object-contain"
+            className="h-20 w-20 -translate-y-[10px] object-contain"
           />
         }
       />
