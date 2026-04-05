@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
+const nodeEnv = process.env.NODE_ENV || "development";
+const jwtSecret = process.env.JWT_SECRET;
+
 const defaultClientOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
@@ -15,7 +18,7 @@ const clientOrigins = (process.env.CLIENT_ORIGIN || defaultClientOrigins.join(",
   .filter(Boolean);
 
 function isAllowedDevOrigin(origin) {
-  if ((process.env.NODE_ENV || "development") !== "development") {
+  if (nodeEnv !== "development") {
     return false;
   }
 
@@ -30,11 +33,15 @@ function isAllowedDevOrigin(origin) {
   }
 }
 
+if (nodeEnv !== "development" && !jwtSecret) {
+  throw new Error("JWT_SECRET must be set outside development.");
+}
+
 const env = {
   port: Number(process.env.PORT || 4000),
-  jwtSecret: process.env.JWT_SECRET || "development-secret",
+  jwtSecret: jwtSecret || "development-secret",
   clientOrigins,
-  nodeEnv: process.env.NODE_ENV || "development",
+  nodeEnv,
   isAllowedDevOrigin
 };
 
