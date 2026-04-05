@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 
 const items = [
@@ -8,18 +9,20 @@ const items = [
 
 export function BottomNav() {
   return (
-    <nav className="fixed bottom-4 left-1/2 z-30 flex w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 rounded-full border border-white/10 bg-slate-950/80 p-2 backdrop-blur">
+    <nav className="paper-scrap nav-pin paper-tilt-flat fixed bottom-4 left-1/2 z-30 flex w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 p-2">
       {items.map((item) => (
         <NavLink
           key={item.to}
           to={item.to}
           className={({ isActive }) =>
             `flex-1 rounded-full px-4 py-3 text-center text-sm font-semibold transition ${
-              isActive ? "bg-brand-600 text-white" : "text-slate-400"
+              isActive ? "marker-button" : "text-ink-charcoal/65"
             }`
           }
         >
-          {item.label}
+          <motion.span whileTap={{ scale: 0.96, y: 1 }} whileHover={{ y: -1 }} className="block">
+            {item.label}
+          </motion.span>
         </NavLink>
       ))}
     </nav>

@@ -1,6 +1,6 @@
 export function LoadingState({ label = "Loading..." }) {
   return (
-    <div className="flex items-center justify-center py-16 text-sm text-slate-400">
+    <div className="paper-panel flex items-center justify-center rounded-[2rem] py-16 text-sm text-ink-charcoal/70">
       {label}
     </div>
   );

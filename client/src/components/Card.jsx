@@ -1,6 +1,11 @@
-export function Card({ children, className = "" }) {
+export function Card({ children, className = "", tilt = "left" }) {
+  const tiltClass =
+    tilt === "right" ? "paper-tilt-right" : tilt === "flat" ? "paper-tilt-flat" : "paper-tilt-left";
+
   return (
-    <section className={`rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-black/10 backdrop-blur ${className}`}>
+    <section
+      className={`paper-scrap ${tiltClass} p-4 ${className}`}
+    >
       {children}
     </section>
   );

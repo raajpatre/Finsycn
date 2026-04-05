@@ -1,28 +1,258 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  color: #f8fafc;
-  background: #020617;
+  font-family: "Patrick Hand", sans-serif;
+  color: #333333;
+  background-color: #fbfbf5;
+  background-image:
+    linear-gradient(to bottom, rgba(16, 42, 111, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178, 34, 34, 0.1) 0, rgba(178, 34, 34, 0.1) 2px, transparent 2px);
+  background-position: left 1.5rem top 0, left 1rem top 0;
+  background-size: 100% 1.9rem, 100% 100%;
+  line-height: 1.4;
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   min-width: 320px;
+  color: #333333;
+  font-family: "Patrick Hand", sans-serif;
+  background-color: #fbfbf5;
+  background-image:
+    linear-gradient(to bottom, rgba(16, 42, 111, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178, 34, 34, 0.1) 0, rgba(178, 34, 34, 0.1) 2px, transparent 2px);
+  background-position: left 1.5rem top 0, left 1rem top 0;
+  background-size: 100% 1.9rem, 100% 100%;
 }
 
 button,
 input,
 select {
   font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Kalam", "Patrick Hand", cursive;
+  color: #102a6f;
+}
+
+button,
+input,
+select,
+textarea {
+  color: #333333;
+}
+
+::placeholder {
+  color: rgba(51, 51, 51, 0.45);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+@layer components {
+  .paper-panel {
+    background: rgba(251, 251, 245, 0.92);
+    border: 1.5px solid rgba(16, 42, 111, 0.18);
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.14);
+  }
+
+  .paper-scrap {
+    position: relative;
+    background:
+      radial-gradient(circle at top right, rgba(255, 255, 255, 0.65), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0)) top/100% 2.5rem no-repeat,
+      rgba(251, 251, 245, 0.96);
+    border: 2px solid rgba(16, 42, 111, 0.25);
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 4px 4px 0 rgba(51, 51, 51, 0.14);
+  }
+
+  .paper-scrap::before {
+    content: "";
+    position: absolute;
+    inset: 0.35rem;
+    border: 1px dashed rgba(16, 42, 111, 0.15);
+    border-radius: 245px 18px 220px 18px / 18px 220px 18px 245px;
+    pointer-events: none;
+  }
+
+  .paper-tilt-left {
+    transform: rotate(-0.7deg);
+  }
+
+  .paper-tilt-right {
+    transform: rotate(0.7deg);
+  }
+
+  .paper-tilt-flat {
+    transform: rotate(0deg);
+  }
+
+  .paper-button {
+    position: relative;
+    background: rgba(251, 251, 245, 0.95);
+    border: 2px solid rgba(16, 42, 111, 0.42);
+    border-radius: 18px 22px 16px 24px / 22px 16px 24px 18px;
+    color: #102a6f;
+    box-shadow: 3px 3px 0 rgba(16, 42, 111, 0.14);
+  }
+
+  .marker-button {
+    position: relative;
+    background: #b22222;
+    border: 2px solid rgba(51, 51, 51, 0.24);
+    border-radius: 19px 13px 22px 15px / 15px 20px 14px 22px;
+    color: #fffdf8;
+    box-shadow: 3px 3px 0 rgba(102, 22, 22, 0.22);
+  }
+
+  .marker-button::before,
+  .paper-button::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .paper-button::before {
+    border-color: rgba(16, 42, 111, 0.14);
+  }
+
+  .lined-input {
+    width: 100%;
+    border: 0;
+    border-bottom: 2px dashed rgba(16, 42, 111, 0.72);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.8rem 0.2rem 0.7rem;
+    color: #333333;
+    outline: none;
+    box-shadow: none;
+  }
+
+  .lined-input:focus {
+    border-bottom-color: #102a6f;
+  }
+
+  .stamp-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(178, 34, 34, 0.7);
+    color: #b22222;
+    background: rgba(255, 245, 245, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    transform: rotate(-4deg);
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(178, 34, 34, 0.15);
+  }
+
+  .receipt-sheet {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .receipt-sheet::before,
+  .receipt-sheet::after {
+    content: "";
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    width: 0.55rem;
+    background:
+      radial-gradient(circle, rgba(251, 251, 245, 1) 0.22rem, transparent 0.24rem)
+      center top / 100% 1.25rem repeat-y;
+    opacity: 0.95;
+    pointer-events: none;
+  }
+
+  .receipt-sheet::before {
+    left: -0.28rem;
+  }
+
+  .receipt-sheet::after {
+    right: -0.28rem;
+  }
+
+  .taped-paper {
+    position: relative;
+  }
+
+  .taped-paper::after,
+  .taped-paper::before {
+    content: "";
+    position: absolute;
+    top: -0.75rem;
+    width: 4.5rem;
+    height: 1.25rem;
+    background: rgba(240, 213, 160, 0.45);
+    border: 1px solid rgba(176, 146, 94, 0.2);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+    pointer-events: none;
+  }
+
+  .taped-paper::before {
+    left: 1.5rem;
+    transform: rotate(-8deg);
+  }
+
+  .taped-paper::after {
+    right: 1.5rem;
+    transform: rotate(7deg);
+  }
+
+  .nav-pin {
+    position: relative;
+  }
+
+  .nav-pin::before {
+    content: "";
+    position: absolute;
+    top: -0.45rem;
+    left: 50%;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 9999px;
+    background: #b22222;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    transform: translateX(-50%);
+    box-shadow: 0 2px 0 rgba(51, 51, 51, 0.2);
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    background-position: left 1.2rem top 0, left 0.8rem top 0;
+  }
+
+  body {
+    background-position: left 1.2rem top 0, left 0.8rem top 0;
+  }
+
+  .taped-paper::before,
+  .taped-paper::after {
+    width: 3.6rem;
+  }
 }
 
 input,

@@ -4,6 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        "paper-bg": "#FBFBF5",
+        "ink-dark": "#102A6F",
+        "ink-charcoal": "#333333",
+        "marker-red": "#B22222",
         brand: {
           50: "#f0fdfa",
           100: "#ccfbf1",
@@ -16,10 +20,13 @@ export default {
         shell: "#09111f"
       },
       boxShadow: {
-        fab: "0 20px 40px rgba(20, 184, 166, 0.30)"
+        fab: "4px 4px 0 rgba(16, 42, 111, 0.18)",
+        paper: "4px 4px 0 rgba(51, 51, 51, 0.18)"
       },
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui", "sans-serif"]
+        sans: ["'Patrick Hand'", "ui-sans-serif", "system-ui", "sans-serif"],
+        heading: ["'Kalam'", "'Patrick Hand'", "cursive"],
+        body: ["'Patrick Hand'", "ui-sans-serif", "system-ui", "sans-serif"]
       }
     }
   },

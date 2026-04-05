@@ -1,3 +1,5 @@
+import { Pressable } from "./Pressable";
+
 export function Modal({ open, title, onClose, children, panelClassName = "" }) {
   if (!open) {
     return null;
@@ -5,18 +7,18 @@ export function Modal({ open, title, onClose, children, panelClassName = "" }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-[rgba(51,51,51,0.18)] p-4 backdrop-blur-[1px]"
       onClick={onClose}
     >
       <div
-        className={`max-h-[85vh] w-full max-w-md overflow-y-auto rounded-[2rem] border border-white/10 bg-slate-950 p-5 ${panelClassName}`.trim()}
+        className={`paper-scrap taped-paper paper-tilt-right max-h-[85vh] w-full max-w-md overflow-y-auto p-5 ${panelClassName}`.trim()}
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
-          <button type="button" onClick={onClose} className="rounded-full px-3 py-2 text-slate-400">
+          <h2 className="font-heading text-lg font-bold text-ink-dark">{title}</h2>
+          <Pressable as="button" type="button" onClick={onClose} className="paper-button rounded-full px-3 py-2 text-sm">
             Close
-          </button>
+          </Pressable>
         </div>
         {children}
       </div>

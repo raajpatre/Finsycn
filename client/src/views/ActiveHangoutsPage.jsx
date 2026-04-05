@@ -7,6 +7,7 @@ import { EmptyState } from "../components/EmptyState";
 import { LoadingState } from "../components/LoadingState";
 import { Modal } from "../components/Modal";
 import { PageHeader } from "../components/PageHeader";
+import { Pressable } from "../components/Pressable";
 import { useHangouts } from "../hooks/useHangouts";
 import { useAuth } from "../state/AuthContext";
 import { formatPaise } from "../utils/money";
@@ -14,9 +15,9 @@ import { formatPaise } from "../utils/money";
 function DebtBreakdownSheet({ title, totalPaise, breakdown, emptyBody, open, onClose, tone }) {
   return (
     <Modal open={open} title={title} onClose={onClose} panelClassName="pb-8">
-      <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5">
-        <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Archived remaining total</p>
-        <p className={`mt-3 text-3xl font-bold ${tone}`}>{formatPaise(totalPaise)}</p>
+      <div className="paper-scrap paper-tilt-left p-5">
+        <p className="text-xs uppercase tracking-[0.3em] text-ink-dark/65">Archived remaining total</p>
+        <p className={`mt-3 font-heading text-3xl font-bold ${tone}`}>{formatPaise(totalPaise)}</p>
       </div>
 
       {!breakdown.length ? (
@@ -24,11 +25,11 @@ function DebtBreakdownSheet({ title, totalPaise, breakdown, emptyBody, open, onC
       ) : (
         <div className="mt-5 space-y-4">
           {breakdown.map((entry) => (
-            <div key={entry.counterpartyUserId} className="rounded-[1.75rem] border border-white/10 bg-white/5 p-4">
+            <div key={entry.counterpartyUserId} className="paper-scrap paper-tilt-right p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-lg font-semibold text-white">@{entry.counterpartyName}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.3em] text-slate-500">
+                  <p className="font-heading text-lg font-semibold text-ink-dark">@{entry.counterpartyName}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.3em] text-ink-charcoal/55">
                     {entry.hangouts.length} archived hangout{entry.hangouts.length === 1 ? "" : "s"}
                   </p>
                 </div>
@@ -39,15 +40,15 @@ function DebtBreakdownSheet({ title, totalPaise, breakdown, emptyBody, open, onC
                 {entry.hangouts.map((hangout) => (
                   <div
                     key={`${entry.counterpartyUserId}-${hangout.hangoutId}`}
-                    className="flex items-start justify-between gap-3 rounded-2xl bg-slate-950/60 px-4 py-3"
+                    className="rounded-[1.25rem] border border-ink-dark/15 bg-white/60 px-4 py-3"
                   >
                     <div>
-                      <p className="font-medium text-white">{hangout.hangoutName}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.3em] text-slate-500">
+                      <p className="font-medium text-ink-charcoal">{hangout.hangoutName}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.3em] text-ink-charcoal/55">
                         {hangout.roomCode}
                       </p>
                     </div>
-                    <p className="text-sm font-semibold text-slate-200">{formatPaise(hangout.amountPaise)}</p>
+                    <p className="text-sm font-semibold text-ink-dark">{formatPaise(hangout.amountPaise)}</p>
                   </div>
                 ))}
               </div>
@@ -130,62 +131,69 @@ export function ActiveHangoutsPage() {
         title="Active Hangouts"
         subtitle="Create a session for the squad or jump in using a room code."
         action={
-          <button
+          <Pressable
+            as="button"
             type="button"
             onClick={() => openModal("create")}
-            className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white"
+            className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
           >
             New
-          </button>
+          </Pressable>
         }
       />
 
       <div className="mb-4 grid grid-cols-2 gap-3">
-        <button
+        <Pressable
+          as="button"
           type="button"
           onClick={() => openModal("owe")}
-          className="rounded-3xl border border-rose-400/20 bg-rose-500/10 px-4 py-4 text-left text-white"
+          className="paper-scrap paper-tilt-left bg-[#fff1b8] px-4 py-4 text-left"
+          whileTap={{ scale: 0.98, rotate: -2, y: 2 }}
         >
-          <span className="block text-xs uppercase tracking-[0.3em] text-rose-200/80">I owe</span>
-          <span className="mt-2 block text-lg font-semibold">
+          <span className="block text-xs uppercase tracking-[0.3em] text-marker-red/80">I owe</span>
+          <span className="mt-2 block font-heading text-lg font-semibold text-marker-red">
             {formatPaise(archivedDebtSummary.totalIOwePaise)}
           </span>
-          <span className="mt-1 block text-sm text-rose-100/80">Closed hangouts only</span>
-        </button>
-        <button
+          <span className="mt-1 block text-sm text-ink-charcoal/70">Closed hangouts only</span>
+        </Pressable>
+        <Pressable
+          as="button"
           type="button"
           onClick={() => openModal("owed")}
-          className="rounded-3xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-4 text-left text-white"
+          className="paper-scrap paper-tilt-right bg-[#dff6df] px-4 py-4 text-left"
+          whileTap={{ scale: 0.98, rotate: 2, y: 2 }}
         >
-          <span className="block text-xs uppercase tracking-[0.3em] text-emerald-200/80">Owed to me</span>
-          <span className="mt-2 block text-lg font-semibold">
+          <span className="block text-xs uppercase tracking-[0.3em] text-ink-dark/70">Owed to me</span>
+          <span className="mt-2 block font-heading text-lg font-semibold text-ink-dark">
             {formatPaise(archivedDebtSummary.totalOwedToMePaise)}
           </span>
-          <span className="mt-1 block text-sm text-emerald-100/80">Closed hangouts only</span>
-        </button>
+          <span className="mt-1 block text-sm text-ink-charcoal/70">Closed hangouts only</span>
+        </Pressable>
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-3">
-        <button
+        <Pressable
+          as="button"
           type="button"
           onClick={() => openModal("create")}
-          className="rounded-3xl bg-brand-600 px-4 py-4 text-left text-white"
+          className="marker-button rounded-[1.6rem] px-4 py-4 text-left"
         >
-          <span className="block text-xs uppercase tracking-[0.3em] text-brand-100">Create</span>
-          <span className="mt-2 block text-lg font-semibold">Start a hangout</span>
-        </button>
-        <button
+          <span className="block text-xs uppercase tracking-[0.3em] text-white/80">Create</span>
+          <span className="mt-2 block font-heading text-lg font-semibold">Start a hangout</span>
+        </Pressable>
+        <Pressable
+          as="button"
           type="button"
           onClick={() => openModal("join")}
-          className="rounded-3xl border border-white/10 bg-white/5 px-4 py-4 text-left text-white"
+          className="paper-scrap paper-tilt-flat px-4 py-4 text-left"
         >
-          <span className="block text-xs uppercase tracking-[0.3em] text-slate-400">Join</span>
-          <span className="mt-2 block text-lg font-semibold">Use room code</span>
-        </button>
+          <span className="block text-xs uppercase tracking-[0.3em] text-ink-dark/70">Join</span>
+          <span className="mt-2 block font-heading text-lg font-semibold text-ink-dark">Use room code</span>
+        </Pressable>
       </div>
 
       {loading ? <LoadingState label="Loading your active hangouts..." /> : null}
-      {error ? <p className="mb-4 text-sm text-rose-300">{error}</p> : null}
+      {error ? <p className="mb-4 text-sm text-marker-red">{error}</p> : null}
 
       {!loading && hangouts.length === 0 ? (
         <EmptyState
@@ -195,32 +203,35 @@ export function ActiveHangoutsPage() {
       ) : null}
 
       <div className="space-y-3">
-        {hangouts.map((hangout) => (
+        {hangouts.map((hangout, index) => (
           <Card
             key={hangout.id}
-            className="cursor-pointer bg-white/5 transition active:scale-[0.99]"
+            className="cursor-pointer bg-[#fffef8] transition"
+            tilt={index % 2 === 0 ? "left" : "right"}
           >
-            <button
+            <Pressable
+              as="button"
               type="button"
               onClick={() => navigate(`/hangouts/${hangout.id}`)}
               className="w-full text-left"
+              whileTap={{ scale: 0.985, y: 1 }}
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.3em] text-brand-100/70">{hangout.roomCode}</p>
-                  <h2 className="mt-2 text-xl font-semibold text-white">{hangout.name}</h2>
-                  <p className="mt-2 text-sm text-slate-400">Created by @{hangout.creator.username}</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-ink-dark/60">{hangout.roomCode}</p>
+                  <h2 className="mt-2 font-heading text-xl font-semibold text-ink-dark">{hangout.name}</h2>
+                  <p className="mt-2 text-sm text-ink-charcoal/70">Created by @{hangout.creator.username}</p>
                 </div>
-                <div className="rounded-full bg-brand-500/15 px-3 py-2 text-xs font-semibold text-brand-100">
+                <div className="rounded-full border border-ink-dark/20 bg-[#eaf1ff] px-3 py-2 text-[11px] font-semibold text-ink-dark shadow-[2px_2px_0_rgba(16,42,111,0.08)]">
                   {hangout.memberCount} members
                 </div>
               </div>
-              <div className="mt-4 flex items-center justify-between text-sm text-slate-400">
+              <div className="mt-4 flex items-center justify-between text-sm text-ink-charcoal/65">
                 <span>{hangout.expenseCount} expenses</span>
                 <span>{hangout.summary.settlements.length} settlements</span>
               </div>
               {hangout.summary.settlements[0] ? (
-                <p className="mt-3 text-sm text-slate-200">
+                <p className="mt-3 text-sm text-ink-charcoal">
                   Next up: {hangout.summary.settlements[0].fromName} pays{" "}
                   {hangout.summary.settlements[0].toName}{" "}
                   {formatPaise(
@@ -229,9 +240,9 @@ export function ActiveHangoutsPage() {
                   )}
                 </p>
               ) : (
-                <p className="mt-3 text-sm text-emerald-300">All balances are even right now.</p>
+                <p className="mt-3 text-sm text-ink-dark">All balances are even right now.</p>
               )}
-            </button>
+            </Pressable>
           </Card>
         ))}
       </div>
@@ -242,15 +253,16 @@ export function ActiveHangoutsPage() {
             value={name}
             onChange={(event) => setName(event.target.value)}
             placeholder="Trip to Goa"
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-base text-white outline-none"
+            className="lined-input text-base"
           />
-          {actionError ? <p className="text-sm text-rose-300">{actionError}</p> : null}
-          <button
+          {actionError ? <p className="text-sm text-marker-red">{actionError}</p> : null}
+          <Pressable
+            as="button"
             disabled={submitting}
-            className="w-full rounded-2xl bg-brand-600 px-4 py-4 font-semibold text-white disabled:opacity-60"
+            className="marker-button w-full px-4 py-4 font-semibold disabled:opacity-60"
           >
             {submitting ? "Creating..." : "Create hangout"}
-          </button>
+          </Pressable>
         </form>
       </Modal>
 
@@ -261,15 +273,16 @@ export function ActiveHangoutsPage() {
             onChange={(event) => setRoomCode(event.target.value.toUpperCase())}
             placeholder="AB12CD"
             maxLength={6}
-            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-base uppercase tracking-[0.4em] text-white outline-none"
+            className="lined-input text-base uppercase tracking-[0.4em]"
           />
-          {actionError ? <p className="text-sm text-rose-300">{actionError}</p> : null}
-          <button
+          {actionError ? <p className="text-sm text-marker-red">{actionError}</p> : null}
+          <Pressable
+            as="button"
             disabled={submitting}
-            className="w-full rounded-2xl bg-brand-600 px-4 py-4 font-semibold text-white disabled:opacity-60"
+            className="marker-button w-full px-4 py-4 font-semibold disabled:opacity-60"
           >
             {submitting ? "Joining..." : "Join hangout"}
-          </button>
+          </Pressable>
         </form>
       </Modal>
 
@@ -280,7 +293,7 @@ export function ActiveHangoutsPage() {
         totalPaise={archivedDebtSummary.totalIOwePaise}
         breakdown={archivedDebtSummary.iOweBreakdown}
         emptyBody="You do not owe anything from archived hangouts right now."
-        tone="text-rose-300"
+        tone="text-marker-red"
       />
 
       <DebtBreakdownSheet
@@ -290,7 +303,7 @@ export function ActiveHangoutsPage() {
         totalPaise={archivedDebtSummary.totalOwedToMePaise}
         breakdown={archivedDebtSummary.owedToMeBreakdown}
         emptyBody="Nobody owes you anything from archived hangouts right now."
-        tone="text-emerald-300"
+        tone="text-ink-dark"
       />
     </>
   );
