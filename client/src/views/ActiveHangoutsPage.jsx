@@ -131,14 +131,11 @@ export function ActiveHangoutsPage() {
         title="Active Hangouts"
         subtitle="Create a session for the squad or jump in using a room code."
         action={
-          <Pressable
-            as="button"
-            type="button"
-            onClick={() => openModal("create")}
-            className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
-          >
-            New
-          </Pressable>
+          <img
+            src="/rough-bills-logo.png"
+            alt="Rough Bills logo"
+            className="h-16 w-16 rounded-[1.5rem] border border-ink-dark/10 object-cover shadow-[4px_4px_0_rgba(16,42,111,0.12)]"
+          />
         }
       />
 

@@ -297,7 +297,7 @@ export function HangoutDetailPage() {
         title={hangout.name}
         subtitle={balanceMessage}
         action={
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <Pressable
               as="button"
               type="button"

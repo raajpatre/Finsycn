@@ -6,8 +6,8 @@ export function PageHeader({ eyebrow, title, subtitle, action }) {
         <div>
           <h1 className="font-heading text-3xl font-bold tracking-tight text-ink-dark">{title}</h1>
           {subtitle ? <p className="mt-2 text-sm leading-6 text-ink-charcoal/70">{subtitle}</p> : null}
+          {action ? <div className="mt-4">{action}</div> : null}
         </div>
-        {action}
       </div>
     </header>
   );
