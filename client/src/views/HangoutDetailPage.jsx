@@ -296,39 +296,39 @@ export function HangoutDetailPage() {
         eyebrow={hangout.status === "CLOSED" ? "Archived Hangout" : "Live Hangout"}
         title={hangout.name}
         subtitle={balanceMessage}
-        action={
-          <div className="flex flex-wrap items-center gap-3">
-            <Pressable
-              as="button"
-              type="button"
-              onClick={() => navigate("/hangouts")}
-              className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
-            >
-              Back
-            </Pressable>
-            {hangout.status === "ACTIVE" ? (
-              <Pressable
-                as="button"
-                type="button"
-                onClick={handleCopyCode}
-                className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
-              >
-                Copy room code
-              </Pressable>
-            ) : null}
-            {hangout.status === "ACTIVE" && isCreator ? (
-              <Pressable
-                as="button"
-                type="button"
-                onClick={handleCloseHangout}
-                className="marker-button rounded-full px-4 py-2 text-sm font-semibold"
-              >
-                End hangout
-              </Pressable>
-            ) : null}
-          </div>
-        }
+        action={null}
       />
+
+      <div className="mb-5 flex flex-wrap items-center gap-3">
+        <Pressable
+          as="button"
+          type="button"
+          onClick={() => navigate("/hangouts")}
+          className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
+        >
+          Back
+        </Pressable>
+        {hangout.status === "ACTIVE" ? (
+          <Pressable
+            as="button"
+            type="button"
+            onClick={handleCopyCode}
+            className="paper-button rounded-full px-4 py-2 text-sm font-semibold"
+          >
+            Copy room code
+          </Pressable>
+        ) : null}
+        {hangout.status === "ACTIVE" && isCreator ? (
+          <Pressable
+            as="button"
+            type="button"
+            onClick={handleCloseHangout}
+            className="marker-button rounded-full px-4 py-2 text-sm font-semibold"
+          >
+            End hangout
+          </Pressable>
+        ) : null}
+      </div>
 
       {error ? <p className="mb-4 text-sm text-marker-red">{error}</p> : null}
 
