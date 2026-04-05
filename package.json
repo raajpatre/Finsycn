@@ -1,0 +1,25 @@
+{
+  "name": "myfinance-phase-1",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "type": "commonjs",
+  "scripts": {
+    "build:client": "npm run build --workspace client",
+    "dev:client": "npm run dev --workspace client",
+    "dev:server": "npm run dev --workspace server",
+    "prisma:deploy": "npm run prisma:deploy --workspace server",
+    "prisma:generate": "npm run prisma:generate --workspace server",
+    "start:server": "npm run start --workspace server",
+    "test": "node --test src/**/*.test.js"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3"
+  }
+}

@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum HangoutStatus {
+  ACTIVE
+  CLOSED
+}
+
+model User {
+  id                         String              @id @default(cuid())
+  username                   String              @unique
+  passwordHash               String              @map("password_hash")
+  createdAt                  DateTime            @default(now()) @map("created_at")
+  updatedAt                  DateTime            @updatedAt @map("updated_at")
+  memberships                HangoutMember[]
+  createdHangouts            Hangout[]           @relation("HangoutCreator")
+  paidExpenses               Expense[]           @relation("ExpensePayer")
+  outgoingSettlementPayments SettlementPayment[] @relation("SettlementDebtor")
+  incomingSettlementPayments SettlementPayment[] @relation("SettlementCreditor")
+  recordedSettlementPayments SettlementPayment[] @relation("SettlementRecorder")
+
+  @@map("users")
+}
+
+model Hangout {
+  id                 String              @id @default(cuid())
+  name               String
+  roomCode           String              @unique @db.Char(6) @map("room_code")
+  creatorUserId      String              @map("creator_user_id")
+  status             HangoutStatus       @default(ACTIVE)
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @updatedAt @map("updated_at")
+  creator            User                @relation("HangoutCreator", fields: [creatorUserId], references: [id], onDelete: Restrict)
+  members            HangoutMember[]
+  expenses           Expense[]
+  settlementPayments SettlementPayment[]
+
+  @@index([creatorUserId])
+  @@map("hangouts")
+}
+
+model HangoutMember {
+  id        String   @id @default(cuid())
+  hangoutId String   @map("hangout_id")
+  userId    String   @map("user_id")
+  joinedAt  DateTime @default(now()) @map("joined_at")
+  hangout   Hangout  @relation(fields: [hangoutId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([hangoutId, userId])
+  @@index([userId])
+  @@map("hangout_members")
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  hangoutId   String   @map("hangout_id")
+  payerId     String   @map("payer_id")
+  amountPaise Int      @map("amount_paise")
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+  hangout     Hangout  @relation(fields: [hangoutId], references: [id], onDelete: Cascade)
+  payer       User     @relation("ExpensePayer", fields: [payerId], references: [id], onDelete: Restrict)
+
+  @@index([hangoutId])
+  @@index([payerId])
+  @@map("expenses")
+}
+
+model SettlementPayment {
+  id               String   @id @default(cuid())
+  hangoutId        String   @map("hangout_id")
+  fromUserId       String   @map("from_user_id")
+  toUserId         String   @map("to_user_id")
+  recordedByUserId String   @map("recorded_by_user_id")
+  amountPaise      Int      @map("amount_paise")
+  createdAt        DateTime @default(now()) @map("created_at")
+  hangout          Hangout  @relation(fields: [hangoutId], references: [id], onDelete: Cascade)
+  fromUser         User     @relation("SettlementDebtor", fields: [fromUserId], references: [id], onDelete: Restrict)
+  toUser           User     @relation("SettlementCreditor", fields: [toUserId], references: [id], onDelete: Restrict)
+  recordedByUser   User     @relation("SettlementRecorder", fields: [recordedByUserId], references: [id], onDelete: Restrict)
+
+  @@index([hangoutId])
+  @@index([fromUserId])
+  @@index([toUserId])
+  @@map("settlement_payments")
+}
