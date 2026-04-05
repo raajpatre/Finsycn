@@ -1,5 +1,21 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "/api" : "http://localhost:4000/api");
+const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+const API_BASE_URL = configuredApiBaseUrl || "/api";
+
+function buildRequestUrl(path) {
+  return `${API_BASE_URL}${path}`;
+}
+
+function getDefaultErrorMessage(response, payload) {
+  if (payload?.message) {
+    return payload.message;
+  }
+
+  if (!import.meta.env.DEV && !configuredApiBaseUrl && response.status === 404) {
+    return "API not configured. Set VITE_API_BASE_URL for the deployed client.";
+  }
+
+  return "Request failed.";
+}
 
 function getAuthHeaders(token) {
   return token
@@ -10,7 +26,7 @@ function getAuthHeaders(token) {
 }
 
 export async function apiFetch(path, { token, method = "GET", body } = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(buildRequestUrl(path), {
     method,
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +39,7 @@ export async function apiFetch(path, { token, method = "GET", body } = {}) {
   const payload = isJson ? await response.json() : null;
 
   if (!response.ok) {
-    throw new Error(payload?.message || "Request failed.");
+    throw new Error(getDefaultErrorMessage(response, payload));
   }
 
   return payload;
